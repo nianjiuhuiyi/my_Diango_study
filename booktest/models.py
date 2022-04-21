@@ -11,6 +11,9 @@ class BookInfo(models.Model):
     # (3)出版日期：DateField说明是一个日期类型
     bpub_date = models.DateField()
 
+    def __str__(self):
+        return self.btitle   # 为了页面显示书名
+
 
 # 人物类
 class HeroInfo(models.Model):
@@ -24,3 +27,6 @@ class HeroInfo(models.Model):
     hbook = models.ForeignKey("BookInfo", on_delete=models.CASCADE)   # 外键，类名别写错了
     # 1.8就不是必须给on_delete，参数解释看这 https://blog.csdn.net/vivian_wanjin/article/details/84068821
     # https://www.jianshu.com/p/c3550f2d2d4d
+
+    def __str__(self):
+        return self.hname  # 为了页面显示人物的名字，而不是一个 “HerInfo object(number)” 这种
