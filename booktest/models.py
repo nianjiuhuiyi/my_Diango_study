@@ -10,8 +10,6 @@ class BookInfo(models.Model):
     btitle = models.CharField(max_length=20)
     # (3)出版日期：DateField说明是一个日期类型
     bpub_date = models.DateField()
-    def no_use(self):
-        retuen "随便写的，毫无意义"
 
     def __str__(self):
         return self.btitle   # 为了页面显示书名
