@@ -18,10 +18,10 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    # 注意这里面不能正则了
+    # 注意path这里面不能正则了
     path('admin/', admin.site.urls),
     # 这行是我加的 （前面都没有 / ）
-    path(r"index", include("booktest.urls"))
+    path(r"index/", include("booktest.urls")),
 
     # 下面这两行跟path(r"index", include("booktest.urls"))是一个效果，
     # 说明path可以跟地址，也可以跟一个映射函数
