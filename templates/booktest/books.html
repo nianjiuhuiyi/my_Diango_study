@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>books</title>
+</head>
+<body>
+    <div>图书内容如下：</div>
+    <ul>
+        {% for obj in book_objs %}
+        <li>
+            <!-- 注意 herf 的超链接，它是在这链接后加了数字，即 /obj.id -->
+            <!-- <a href="{{ obj.id }}">{{ obj.btitle }}</a> -->
+            <a href="/index/book/{{ obj.id }}">{{ obj.btitle }}</a>   <!--和上一行是一个意思-->
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

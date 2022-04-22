@@ -14,8 +14,33 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
 
 urlpatterns = [
+    # 注意path这里面不能正则了
     path('admin/', admin.site.urls),
+    # 这行是我加的 （前面都没有 / ）
+    path(r"index/", include("booktest.urls")),
+
+    # 下面这两行跟path(r"index", include("booktest.urls"))是一个效果，
+    # 说明path可以跟地址，也可以跟一个映射函数
+    #from booktest import views
+    # path(r"index123/", views.index)
 ]
+
+
+"""
+ 这是1.8这版本，即1.x的版本的写法，在后面是错的
+ 老版本还可以正则，新版本不行了(暂时不知道怎么破)
+ 
+from django.contrib import admin
+from django.conf.urls import include, url
+
+urlpatterns = [
+    url("admin/", include(admin.site.urls)),
+    url(r"^index/", include("booktest.urls"))
+]
+
+"""
+
