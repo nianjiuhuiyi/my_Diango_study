@@ -66,3 +66,24 @@ def hero_info(request, book_id):
         book_obj=book_obj
     )
     return render(request, "booktest/heros.html", replace_data)   # 注意路径前往别写成了booktest.heros.html
+
+
+import datetime
+from django.http import HttpResponseRedirect
+def create(request):
+    # 创建一本书，为了简单，信息都是固定的
+    b = BookInfo()  # 新建一个对象
+    b.btitle = "这是新建的一本固定的书"
+    b.bpub_date = datetime.date(1997, 6, 27)
+    b.save()  # 把创建的数据报存
+
+    # 上面操作完了，还是重定向(就是再次访问)回这个原来的页面（一定要的）用于展示
+    return HttpResponseRedirect("/index/book")
+
+from django.shortcuts import redirect
+def delete(request, book_id):
+    b = BookInfo.objects.get(id=book_id)    # 是objects，别写错了
+    b.delete()    # 删除
+
+    # return HttpResponseRedirect("/index/book")
+    return redirect("/index/book")  # 跟上面效果一模一样，推荐这个吧
