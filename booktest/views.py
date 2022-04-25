@@ -87,3 +87,29 @@ def delete(request, book_id):
 
     # return HttpResponseRedirect("/index/book")
     return redirect("/index/book")  # 跟上面效果一模一样，推荐这个吧
+
+
+def login(request):
+    """显示登录页面"""
+    return render(request, "booktest/login.html")
+
+
+def login_check(request):
+    """
+    request.POST
+    request.GET    这俩都是<class 'django.http.request.QueryDict'>类型
+    request传过来的对象的数据都在这个里面
+    """
+    print(type(request.POST))   # 类型是<class 'django.http.request.QueryDict'>
+    print(request.method)  # 获取请求方式，一般为 POST 或 GET
+    # 我们表单设计的是POST方式，浏览器直接敲这个地址 /login_check 访问的方式是GET
+
+    # 1.获取提交的用户名和密码 (html中的input标签中的name值是什么，这里的key就是什么)
+    userName = request.POST.get("userName")
+    password = request.POST.get("password")
+    # 2.数据库查询用户名、密码进行校验，这里就是模拟一下
+    if userName == "admin" and password == "123":
+        # 成功，那就跳转到一个页面
+        return redirect("/index/123/")
+    else:
+        return HttpResponse("错误！")

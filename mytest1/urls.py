@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-
+from booktest import views
 urlpatterns = [
     # 注意path这里面不能正则了
     path('admin/', admin.site.urls),
     # 这行是我加的 （前面都没有 / ）
     path(r"index/", include("booktest.urls")),
+    path("", include("booktest.urls")),  # 登录页面
+
 
     # 下面这两行跟path(r"index", include("booktest.urls"))是一个效果，
     # 说明path可以跟地址，也可以跟一个映射函数
