@@ -2,6 +2,28 @@ from django.db import models
 
 # Create your models here.
 
+from django.db.models import Q
+class MyBookInfoManager(models.Manager):
+    """自定义图书管理器类"""
+    # 重写继承下来的all()方法
+    def all(self):
+        # 1.调用父类的all()方法，获取所有的数据
+        books = super().all()     # 得到QuerySet
+        # 2.对数据进行自定义处理，再返回
+        books = books.filter(Q(btitle__contains='猪') | Q(bpub_date__lt="2022-04-01"))
+        return books
+
+    # 新建一个自定义方法，用来创建新的图书数据
+    def my_create(self, name, date):
+        # new_book = BookInfo()  # 万一下面的类名改变了，这就错了
+        Class_name = self.model  # 继承下来的"model"属性能拿到其所在类的名字
+        new_book = Class_name()    # 实例化
+        new_book.btitle = name
+        new_book.bpub_date = date  # 日期可以是一个格式比较好的字符串，不是非得datetime.date(1997, 10, 12)
+        new_book.save()
+        return new_book    # 给一个返回值，也方便在创建时直接拿到这个新建的对象
+
+
 # 设计和表对应的类，模型类
 # 图书类
 # (1)一定要继承 models.Model 这个类，两个类属性就是表的字段
@@ -11,8 +33,15 @@ class BookInfo(models.Model):
     # (3)出版日期：DateField说明是一个日期类型
     bpub_date = models.DateField()
 
+    # models.manager.Manager和models.Manager()是一模一样的,都可以
+    # 自定义Manager()类
+    objects = MyBookInfoManager()  # 为了统一，就还是取名为objects
+
     def __str__(self):
         return self.btitle   # 为了页面显示书名
+
+    class Meta:
+        db_table = "bookinfo"
 
 
 # 人物类
@@ -30,3 +59,6 @@ class HeroInfo(models.Model):
 
     def __str__(self):
         return self.hname  # 为了页面显示人物的名字，而不是一个 “HerInfo object(number)” 这种
+
+    class Meta:
+        db_table = "heroinfo"
