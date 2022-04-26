@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load my_filter %}
 <head>
     <meta charset="UTF-8">
     <title>books</title>
@@ -16,8 +17,13 @@
             <a href="/index/book/{{ obj.id }}">{{ obj.btitle }}</a>   <!--和上一行是一个意思-->
             --<a href="delete/{{obj.id}}">删除</a>
             <!-- "delete/{{obj.id}}" 在这相当于 "/index/book/delete/{{obj.id}}"-->
+            {{ obj.btitle | length }} {{ obj.bpub_date|date:"Y-m-d" }}
+
+            {{ forloop.counter | mod }} {{ forloop.counter | mod_val:2 }}
         </li>
         {% endfor %}
+        {{ does_not_exist | default:"hello" }}
+
     </ul>
 </body>
 </html>

@@ -6,6 +6,7 @@ from django.http import HttpResponse
 # 1.定义视图函数index，必须要返回一个 HttpRequest 对象
 # 2.然后去进行url配置，建立url地址和视图的对应关系
 # 想让用户输入 http://127.0.0.1:8000/总路由+子路由 时可以显示下面的内容
+# /index/123
 def index(request):
     "进行处理，和M和T进行交互"
     #
@@ -35,6 +36,7 @@ def index(request):
 
 # 注意导包不能写 from models import BookInfo   运行会出出错的
 from booktest.models import BookInfo
+# /book
 def show_book(request):
     bs = BookInfo.objects.all()  # 获取所有书的对象
     replace_data = dict(
@@ -44,13 +46,13 @@ def show_book(request):
 
 
 from booktest.models import HeroInfo
+# /book/(\d+)
 def hero_info(request, book_id):
     # 这是获取 HeroInfo 表中的所有英雄
     # hs = HeroInfo.objects.all()
 
     # get只能获取单条数据，如果是多条数据，就会报错，如果只有一条，这不会报错，html模板里的循环就会报错
     # HeroInfo.objects.get(id=book_id)
-
 
     # 获取指定id的书这个对象
     book_obj = BookInfo.objects.get(id=book_id)      # 一条数据，不用循环的话，就用get
@@ -59,7 +61,6 @@ def hero_info(request, book_id):
     # hs = HeroInfo.objects.filter(hbook_id=book_id)  # 注意这个字段名
     # 除了filter这种写法，还有：本就获取到了 book_obj 这本书的对象，那就
     hs = book_obj.heroinfo_set.all()
-
 
     replace_data = dict(
         hero_objs=hs,
@@ -70,6 +71,7 @@ def hero_info(request, book_id):
 
 import datetime
 from django.http import HttpResponseRedirect
+# /book/create
 def create(request):
     # 创建一本书，为了简单，信息都是固定的
     b = BookInfo()  # 新建一个对象
@@ -81,6 +83,7 @@ def create(request):
     return HttpResponseRedirect("/index/book")
 
 from django.shortcuts import redirect
+# /book/delete/(\d+)
 def delete(request, book_id):
     b = BookInfo.objects.get(id=book_id)    # 是objects，别写错了
     b.delete()    # 删除
@@ -92,6 +95,10 @@ def delete(request, book_id):
 # /login
 def login(request):
     """显示登录页面"""
+    if request.session.has_key("isLogin"):
+        # 有值就代表login_check()函数中登陆成功，并设置了 request.session[""isLogin]
+        return redirect("/index/123/")
+
     # 下面login_check在登录成功时保存了用户名的cookie，这里去取来判断，有就直接先填上
     # userName = request.POST.get("userName")  # 注意前面别写错了，用的是cookie
     userName = request.COOKIES.get("userName")  # 当做字典来用的
@@ -126,6 +133,10 @@ def login_check(request):
         if remember is not None:
             response.set_cookie("userName", userName)  # 关闭浏览器即过期，方便调试
             # response.set_cookie("userName", userName, max_age=14*24*3600)
+
+        # 在登录成功后，直接session记住登录状态，通过添加session键值对
+        request.session["isLogin"] = True
+
         return response
     else:
         return HttpResponse("错误！")
@@ -157,3 +168,23 @@ def get_cookie(request):
     num = request.COOKIES["num"]
     # 获取到前面自己设的cookie值，然后返回给页面
     return HttpResponse(num)
+
+
+
+"""开始session的学习"""
+# /set_session
+def set_session(request):
+    # 一样session也可以存很多键值对
+    request.session["userName"] = "admin"
+    request.session["age"] = 18
+    # session中，int就是int，而cookie中键、值都是str
+    return HttpResponse("session设置成功")
+
+
+# /get_session
+def get_session(request):
+    """仅仅是模拟从服务器拿到session的数据，然后显示出来"""
+    userName = request.session.get("userName")
+    age = request.session.get("age")  # 这个节结果是int哦
+    # 理论应该判等一下是否为None的
+    return HttpResponse("获取session结果：" + userName + " : " + str(age))

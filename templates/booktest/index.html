@@ -15,7 +15,7 @@
     <ul>
         {% for i in my_list %}
         <!--  <li>i</li>  这么写时错误的，这就没有用到变量，就是字符串i  -->
-        <li>{{ i }}</li>
+        <li>{{ forloop.counter }}--{{ i }}</li>
         {% endfor %}
     </ul>
 </body>
