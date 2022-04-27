@@ -25,8 +25,8 @@ SECRET_KEY = 'django-insecure-qid403-28w+gyxcuu&b7gcxwp9f@t^pu3b9_a&qy#m&i+a8vu3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -86,8 +86,8 @@ DATABASES = {
         'NAME': 'my_django',  # 使用的数据库名，必须事先手动创建
         'USER': 'root',
         'PASSWORD': '123456',  # 注意密码是字符串
-        # 'HOST': '192.168.2.125',
-        'HOST': '192.168.125.135',
+        'HOST': '192.168.2.125',
+        # 'HOST': '192.168.125.135',
         'PORT': 3306
     }
 }
@@ -131,7 +131,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/'  # 这是系统设置的访问静态文件对应的url地址,相当于静态文件链接地址是以这个开头，它才会去找静态文件
+
+# 设置静态文件存放的物理目录
+# STATICFILES_DIRS = [BASE_DIR / "STATIC"]
+STATICFILES_DIRS = [BASE_DIR / "static", BASE_DIR / "123"]  # 两个都一样的
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

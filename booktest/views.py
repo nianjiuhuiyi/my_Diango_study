@@ -233,3 +233,16 @@ def verifyCode(request):
     # 将图片保存在内存中，文件类型为png
     image.save(buf, "png")
     return HttpResponse(buf.getvalue(), "image/png")  # 这后面的 "image/png" 应该是固定写法
+
+
+# /url_reverse
+def url_reverse(request):
+    """指定的html模板里面是登录页面的超链接；学习失败了"""
+    return render(request, "booktest/url_reverse.html")
+
+
+def ours(request):
+    # 这是一个可以看到django所有设置
+    from django.conf import settings
+    print(settings.STATICFILES_DIRS)
+    return render(request, "booktest/ours.html")

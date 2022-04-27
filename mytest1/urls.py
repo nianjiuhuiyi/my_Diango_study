@@ -23,6 +23,8 @@ urlpatterns = [
     # 这行是我加的 （前面都没有 / ）
     path(r"index/", include("booktest.urls")),
     path("", include("booktest.urls")),  # 登录页面
+    # 尽量不要导入两个相同的 "booktest.urls" ，不然指定不一样的namespace
+    # 看这个连接 https://blog.csdn.net/qq_45956730/article/details/124363456
 
 
     # 下面这两行跟path(r"index", include("booktest.urls"))是一个效果，

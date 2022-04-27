@@ -9,6 +9,8 @@
         {% csrf_token %}
         <div>用户名：<input type="text" name="userName" value="{{ userName }}" placeholder="请输入用户名"></div>
         <div>密码：<input type="password" name="password" placeholder="请输入密码"></div>
+        {% comment %} 这行是模板注释，下面是新增了一行验证码验证 {% endcomment %}
+        <div><img src="/verifyCode"> <input type="text" name="v_code" placeholder="请输入验证码"></div>
         <di><input type="checkbox" name="my_remember">记住用户名</di>
         <div><input type="submit" value="登录"></div>
     </form>
