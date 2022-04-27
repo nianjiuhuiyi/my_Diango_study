@@ -1,0 +1,6 @@
+{% extends "booktest/base.html" %}
+
+{% block my_block1 %}
+{{block.super}}
+<div>父模板中my_block1中的内容修改了</div>
+{% endblock my_block1 %}

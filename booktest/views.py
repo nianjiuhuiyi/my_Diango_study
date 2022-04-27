@@ -188,3 +188,48 @@ def get_session(request):
     age = request.session.get("age")  # 这个节结果是int哦
     # 理论应该判等一下是否为None的
     return HttpResponse("获取session结果：" + userName + " : " + str(age))
+
+
+# /inherit
+def inherit(request):
+    return render(request, "booktest/son1.html")
+
+
+# /trans
+def trans(request):
+    """转义"""
+    data = {"my_content": "<h1>这是一句话</h1>"}
+    return render(request, "booktest/trans_mean.html", data)
+
+
+# /verifyCode
+def verifyCode(request):
+    """生成一个随机码用于展示"""
+    import numpy as np
+    from PIL import Image, ImageDraw, ImageFont
+    from django.utils.six import BytesIO
+
+    # font = ImageFont.truetype("arial.ttf", 35)
+    font = ImageFont.truetype("bahnschrift.ttf", 40)  # 这个只要用系统中有的字体，就不会报错
+
+    # ubuntu的字体路径为 /usr/share/fonts/truetype/freeFont  一个常用字体 FreeMono.ttf
+
+    image = Image.new("RGB", (240, 60))
+    image = np.array(image)
+    image_data = np.random.randint(65, 255, (60, 240, 3))
+    image[...] = image_data[...]
+
+    image = Image.fromarray(image)
+    draw = ImageDraw.Draw(image)
+    for i in range(4):
+        font_color = np.random.randint(0, 255, (1, 3)).tolist()[0]
+        draw.text((i * 60 + 10, 10), text=chr(np.random.randint(65, 90 + 1)), fill=tuple(font_color), font=font)
+
+    # 可以搞个session的键值对把生成的资格随机字符存进去，用于后续验证
+    # request.session["verifyCode"] = "四个生成的字符"
+
+    # 内存文件操作
+    buf = BytesIO()
+    # 将图片保存在内存中，文件类型为png
+    image.save(buf, "png")
+    return HttpResponse(buf.getvalue(), "image/png")  # 这后面的 "image/png" 应该是固定写法

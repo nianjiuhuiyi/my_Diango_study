@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {{ my_content }}
+
+    {{ my_content | safe }}
+
+    {{ does_not_exist | default:"<h1>123</h1>"}}
+</body>
+</html>

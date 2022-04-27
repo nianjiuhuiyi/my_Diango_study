@@ -44,7 +44,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -86,8 +86,8 @@ DATABASES = {
         'NAME': 'my_django',  # 使用的数据库名，必须事先手动创建
         'USER': 'root',
         'PASSWORD': '123456',  # 注意密码是字符串
-        'HOST': '192.168.2.125',
-        # 'HOST': '192.168.125.135',
+        # 'HOST': '192.168.2.125',
+        'HOST': '192.168.125.135',
         'PORT': 3306
     }
 }

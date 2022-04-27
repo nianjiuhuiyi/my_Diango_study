@@ -16,4 +16,10 @@ urlpatterns = [
 
     path("set_session", views.set_session),
     path("get_session", views.get_session),  # session
+
+    path("inherit", views.inherit),  # 模板继承
+
+    path("trans", views.trans),  # 转义
+
+    path("verifyCode", views.verifyCode),  # 显示验证码
 ]
