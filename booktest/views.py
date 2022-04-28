@@ -241,8 +241,27 @@ def url_reverse(request):
     return render(request, "booktest/url_reverse.html")
 
 
+# 通过装饰器来禁止部分ip访问
+# BLOCK_IPS = ["192.168.108.218"]
+# def block_ip(view_func):
+#     def wrapper(request, *args, **kwargs):
+#         user_ip = request.META["REMOTE_ADDR"]
+#         if user_ip in BLOCK_IPS:
+#             return HttpResponse("403 Forbidden")
+#         else:
+#             return view_func(request, *args, **kwargs)
+#     return wrapper
+# @block_ip
+# def ours(request):
+#     pass
+
+
 def ours(request):
     # 这是一个可以看到django所有设置
     from django.conf import settings
-    print(settings.STATICFILES_DIRS)
+    # print(settings.STATICFILES_DIRS)  # 查看查找静态文件配置的地址
+
+    user_ip = request.META["REMOTE_ADDR"]  # 获取访问者的ip地址
+    print("这是视图函数里面被执行的打印：", user_ip)
+    # a = '1' + 1  # 让服务器出错，加这么一行就好了
     return render(request, "booktest/ours.html")

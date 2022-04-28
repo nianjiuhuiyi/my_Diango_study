@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'booktest.middleware.BlockIpMiddleware',   # 这是我自己注册的中间件，上面是系统自带的中间件
 ]
 
 ROOT_URLCONF = 'mytest1.urls'
@@ -86,8 +87,8 @@ DATABASES = {
         'NAME': 'my_django',  # 使用的数据库名，必须事先手动创建
         'USER': 'root',
         'PASSWORD': '123456',  # 注意密码是字符串
-        'HOST': '192.168.2.125',
-        # 'HOST': '192.168.125.135',
+        # 'HOST': '192.168.2.125',
+        'HOST': '192.168.125.135',
         'PORT': 3306
     }
 }
@@ -134,8 +135,8 @@ USE_TZ = True
 STATIC_URL = '/static/'  # 这是系统设置的访问静态文件对应的url地址,相当于静态文件链接地址是以这个开头，它才会去找静态文件
 
 # 设置静态文件存放的物理目录
-# STATICFILES_DIRS = [BASE_DIR / "STATIC"]
-STATICFILES_DIRS = [BASE_DIR / "static", BASE_DIR / "123"]  # 两个都一样的
+# STATICFILES_DIRS = [BASE_DIR / "STATIC"]   # 两h行都一样的
+STATICFILES_DIRS = [BASE_DIR / "static", BASE_DIR / "123"]  # 后面这只是示例可以加多个路径
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
