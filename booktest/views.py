@@ -256,6 +256,7 @@ def url_reverse(request):
 #     pass
 
 
+# /ours
 def ours(request):
     # 这是一个可以看到django所有设置
     from django.conf import settings
@@ -265,3 +266,42 @@ def ours(request):
     print("这是视图函数里面被执行的打印：", user_ip)
     # a = '1' + 1  # 让服务器出错，加这么一行就好了
     return render(request, "booktest/ours.html")
+
+
+# /upload
+def upload(request):
+    """图片上传页面"""
+    return render(request, "booktest/upload.html")
+
+
+# /pic_handle
+from booktest.models import PicTest
+from django.conf import settings
+def pic_handle(request):
+    """表单点击上传的图片的处理（放后台处理，就没有对应的页面展示）"""
+    # 1、获取上传文件的处理对象
+    image = request.FILES["my_pic"]  # “my_pic”是file的input标签的name
+    # print(type(image))
+    # from django.core.files import uploadedfile
+    # <class 'django.core.files.uploadedfile.InMemoryUploadedFile'>
+    # <class 'django.core.files.uploadedfile.TemporaryUploadedFile'>
+
+    image_name = image.name    # 有一个name属性,获取到上传文件的名字
+    # print(image_name)
+    # print(image.size)  # 以字节为单位
+    # print(image.content_type)
+    # # 还有一个属性 image.chunks()  # 它的返回值是一个生成器，每次返回这个文件一块的内容
+
+    # 2、将二进制形式的文件保存起来
+    abs_save_path = "{}/booktest/{}".format(settings.MEDIA_ROOT, image_name)
+    with open(abs_save_path, "wb") as fp:
+        for content in image.chunks():
+            fp.write(content)
+
+    # 3、在数据库中保存上传记录
+    PicTest.objects.create(goods_pic=f"booktest/{image_name}")   # goods_pic是PicTest这个类的一个属性
+
+    # from django.conf.global_settings import FILE_UPLOAD_HANDLERS
+    # print(FILE_UPLOAD_HANDLERS)
+
+    return HttpResponse("ok")

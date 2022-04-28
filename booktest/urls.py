@@ -26,4 +26,7 @@ urlpatterns = [
     path("url_reverse", views.url_reverse),  # url反向解析
 
     path("ours", views.ours),
+
+    path("upload", views.upload),  # 上传图片的展示页面
+    path("pic_handle", views.pic_handle),  # 上传的图片的后台处理
 ]
