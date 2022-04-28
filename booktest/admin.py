@@ -1,5 +1,5 @@
 from django.contrib import admin
-from booktest.models import BookInfo, HeroInfo
+from booktest.models import BookInfo, HeroInfo, PicTest
 
 # Register your models here.
 
@@ -18,3 +18,5 @@ class HeroInfoAdmin(admin.ModelAdmin):
 
 admin.site.register(BookInfo, BookInfoAdmin)  # 可能不会有智能提示，写就对了
 admin.site.register(HeroInfo, HeroInfoAdmin)  # 注册人物类
+
+admin.site.register(PicTest)  # 注册记录文件上传信息的类

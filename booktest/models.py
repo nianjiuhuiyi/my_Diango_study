@@ -62,3 +62,13 @@ class HeroInfo(models.Model):
 
     class Meta:
         db_table = "heroinfo"
+
+
+class PicTest(models.Model):
+    """上传图片"""
+    # 代表放在static/media/booktest这个目录下，注意相对路径写法
+    goods_pic = models.ImageField(upload_to="booktest")
+    # 新加类后，重新迁移后，大抵会得到这养一个提示“No migrations to apply.”
+
+    class Meta:
+        db_table = "pictures"

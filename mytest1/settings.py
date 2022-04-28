@@ -84,7 +84,8 @@ DATABASES = {
 
         # 改成mysql
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'my_django',  # 使用的数据库名，必须事先手动创建
+        # 'NAME': 'my_django',  # 使用的数据库名，必须事先手动创建
+        'NAME': 'new_django',  # 使用的数据库名，必须事先手动创建
         'USER': 'root',
         'PASSWORD': '123456',  # 注意密码是字符串
         # 'HOST': '192.168.2.125',
@@ -142,3 +143,7 @@ STATICFILES_DIRS = [BASE_DIR / "static", BASE_DIR / "123"]  # 后面这只是示
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# 设置上传文件的保存目录(这个属性名应该是固定写法，后面具体跟的名字是自己起的)
+MEDIA_ROOT = BASE_DIR / "static/media"
