@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分页显示数据</title>
+</head>
+<body>
+    {# 1、先把具体页的数据显示出来 #}
+    <ul>
+        {% for area in my_page.object_list %}
+            <li>{{ area.dis_name }}</li>
+        {% endfor %}
+    </ul>
+
+    {# 2、把地下的全部页码展示出来 #}
+    <div>
+        {# 2.1、判断，如果当前页面对象my_page有前一页，就弄一个上一页超链接 #}
+        {% if my_page.has_previous %}
+            <a href="/page_area{{my_page.previous_page_number}}"> &lt;上一页 </a>
+        {%endif%}
+
+        {# 2.2、循环将所有的页面number拿出来 #}
+        {% for page_num in my_page_range %}
+            {# 2.2.1、 !=两边一定要空格，然后判断是本页的就不做超链接了 #}
+            {% if page_num == my_page.number %}
+                {{page_num}}
+            {% else %}
+                <a href="/page_area{{page_num}}">{{page_num}}</a>
+            {% endif %}
+        {% endfor %}
+
+        {# 2.3、判断，如果当前页面对象my_page有下一页，就弄一个下一页超链接 #}
+        {% if my_page.has_next %}
+            <a href="/page_area{{my_page.next_page_number}}"> 下一页&gt; </a>
+        {%endif%}
+    </div>
+</body>
+</html>

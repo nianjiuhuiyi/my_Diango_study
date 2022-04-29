@@ -305,3 +305,51 @@ def pic_handle(request):
     # print(FILE_UPLOAD_HANDLERS)
 
     return HttpResponse("ok")
+
+
+from booktest.models import AreaInfo
+from django.core.paginator import Paginator
+# /all_area
+def all_area(request):
+    """ 展示地区表中的所有数据 """
+    # 1、查询出所有的地区信息
+    datas = AreaInfo.objects.all()
+    # 2、分页，每页显示10条
+    my_paginator = Paginator(datas, 10)  # 总的内容都在my_paginator这里面，只是被分页了
+
+    # print(my_paginator.num_pages)  # 获取总页数 如 341
+    # print(my_paginator.page_range)  # 获取总页码的列表 如 range(1, 342)
+
+    # 3、获取第一页的内容 （这就是分页取内容）
+    page = my_paginator.page(3)  # page是Page类的实例对象
+    # print(page.number)
+    # page.object_list  # 拿到的是这一页数据的查询集
+    # page.paginator   就是又拿到了实例对象 my_paginator
+    # print(page.has_previous())   # 返回布尔值，判断当前页是否有前一页
+    # print(page.has_next())       # 返回布尔值，判断当前页是否有下一页
+    # print(page.previous_page_number())  # 返回前一页的页码，如果是在第1页，这会报错
+    # print(page.next_page_number())  # 返回下一页的页码，如果是在最后一页，这会报错
+
+    return render(request, "booktest/all_area.html", {"areas": datas})  # 这是所有的数据  （这两行注释其中一个看效果）
+    # return render(request, "booktest/all_area.html", {"areas": page.object_list})  # 第一页的数据
+
+
+# /page_area  或者 /page_area13  这就是/page_area页码
+def page_area(request, page_num):
+    """分页展示数据"""
+    # 1、查询出所有的地区信息
+    # datas = AreaInfo.objects.all()
+    datas = AreaInfo.objects.filter(level=1)
+    # 2、分页，每页显示10条 (没说是第几页，page_num就是一个空字符串，就默认来到第1页)
+    if not page_num:
+        page_num = 1
+    my_paginator = Paginator(datas, 10)  # 总的内容都在my_paginator这里面，只是被分页了
+
+    page = my_paginator.page(page_num)
+    replace_data = dict(
+        # my_paginator=list(my_paginator.page_range),
+        my_page_range=my_paginator.page_range,
+        my_page=page,
+    )
+    return render(request, "booktest/page_area.html", replace_data)
+

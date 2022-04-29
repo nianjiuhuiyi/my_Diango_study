@@ -1,0 +1,36 @@
+pip国内镜像下载，示例：
+pip install spaCy -i https://pypi.tuna.tsinghua.edu.cn/simple/
+pip install opencv-python==4.2.0.32 -i https://mirror.baidu.com/pypi/simple
+
+清华：  -i https://pypi.tuna.tsinghua.edu.cn/simple/
+阿里：  -i https://mirrors.aliyun.com/pypi/simple
+豆瓣：  -i http://pypi.douban.com/simple/
+
+
+# 基于列表进行下载
+pip download  -r /tmp/requirements.txt  -d  /tmp/paks/
+pip download numpy  -d  /home/source        把包以whl格式保存到本地
+保存pip包装了的包： pip freeze > requirements.txt
+
+升级包：pip install -U pandas
+
+
+jupter notbook
+
+
+window下，设置pip的默认为清华镜像，两步：
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple  pip -U      (这个好像就是简单升级的命令啊)
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple    
+这个执行了，有一句“Writing to C:\Users\dell\AppData\Roaming\pip\pip.ini”
+
+还有一种方式：
+win+r 然后输入 %APPDATA% ，进到用户资料文件夹，看有没有一个 pip 的文件夹，要是没有就创建
+然后在里面新建一个 pip.ini 的文件，内容如下：
+[global]
+index-url=https://pypi.tuna.tsinghua.edu.cn/simple/
+
+[install]
+trusted-host=tsinghua.edu.cn
+------------------------------------------
+linx直接执行这一句就好：pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple 
+这就会把这个写进~/.config/pip/pip.conf这个文件内（无论是虚拟环境pip还是啥，一个执行，都是写在这里，其它都会用）

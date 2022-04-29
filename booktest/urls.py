@@ -29,4 +29,7 @@ urlpatterns = [
 
     path("upload", views.upload),  # 上传图片的展示页面
     path("pic_handle", views.pic_handle),  # 上传的图片的后台处理
+
+    path("all_area", views.all_area),    # 展示所有的地区
+    re_path("page_area(?P<page_num>\d*)", views.page_area),  # 分页显示数据
 ]

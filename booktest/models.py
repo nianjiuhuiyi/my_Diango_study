@@ -72,3 +72,17 @@ class PicTest(models.Model):
 
     class Meta:
         db_table = "pictures"
+
+
+class AreaInfo(models.Model):
+    # 我们没有设置主键，它生成表时会自动帮我们自动创建id属性
+    # verbose_name是后台页面的首行栏显示的名字
+    pid = models.IntegerField(verbose_name="父级关系", default=0)
+    dis_name = models.CharField(verbose_name="地区名字", max_length=20)
+    level = models.IntegerField(verbose_name="所属等级")
+
+    def __str__(self):
+        return self.dis_name
+
+    class Meta:
+        db_table = "areainfo"
