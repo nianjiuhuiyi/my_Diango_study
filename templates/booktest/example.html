@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>example</title>
+</head>
+<body>
+    <h1>hello world</h1>
+    <form action="/example" name="a_province" method="post">
+        {% csrf_token %}
+        <label for="province"></label>
+        <select name="province_id" id="province">
+            <option value="">{{ province_name | default:"···请选择省···" }}</option>
+            {% for pro_obj in provinces %}
+            <option value="{{ pro_obj.id }}">{{ pro_obj.dis_name }}</option>
+            {% endfor %}
+        </select>
+        <button>确定</button>
+    </form>
+
+    <form action="/example" name="a_city" method="post">
+        {% csrf_token %}
+         <label for="city"></label>
+        <select name="city_id" id="city">
+            <option value="">{{ city_name | default:"···请选择市···"}}</option>
+            {% for city_obj in cities %}
+            <option value="{{ city_obj.id }}">{{ city_obj.dis_name }}</option>
+            {% endfor %}
+        </select>
+        <button>确定</button>
+    </form>
+
+    <form action="/example" name="a_country" method="post">
+        {% csrf_token %}
+        <label for="country"></label>
+        <select name="country_id" id="country">
+            <option value="">···请选择县···</option>
+            {% for country_obj in countries %}
+            <option value="{{ country_obj.id }}">{{ country_obj.dis_name }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+
+
+</body>
+</html>

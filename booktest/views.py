@@ -3,6 +3,8 @@ from django.shortcuts import render
 # Create your views here.
 
 from django.http import HttpResponse
+
+
 # 1.定义视图函数index，必须要返回一个 HttpRequest 对象
 # 2.然后去进行url配置，建立url地址和视图的对应关系
 # 想让用户输入 http://127.0.0.1:8000/总路由+子路由 时可以显示下面的内容
@@ -34,9 +36,12 @@ def index(request):
     # 不用替换数据就不用传第三个参数,可以为空
     return render(request, "booktest/index.html", replace_data)
 
+
 # 注意导包不能写 from models import BookInfo   运行会出出错的
 from booktest.models import BookInfo
-# /book
+
+
+# /book123
 def show_book(request):
     bs = BookInfo.objects.all()  # 获取所有书的对象
     replace_data = dict(
@@ -46,6 +51,8 @@ def show_book(request):
 
 
 from booktest.models import HeroInfo
+
+
 # /book/(\d+)
 def hero_info(request, book_id):
     # 这是获取 HeroInfo 表中的所有英雄
@@ -55,7 +62,7 @@ def hero_info(request, book_id):
     # HeroInfo.objects.get(id=book_id)
 
     # 获取指定id的书这个对象
-    book_obj = BookInfo.objects.get(id=book_id)      # 一条数据，不用循环的话，就用get
+    book_obj = BookInfo.objects.get(id=book_id)  # 一条数据，不用循环的话，就用get
 
     # 获取指定书中的英雄,为空不会报错，也不会进到模板的循环中去
     # hs = HeroInfo.objects.filter(hbook_id=book_id)  # 注意这个字段名
@@ -66,11 +73,13 @@ def hero_info(request, book_id):
         hero_objs=hs,
         book_obj=book_obj
     )
-    return render(request, "booktest/heros.html", replace_data)   # 注意路径前往别写成了booktest.heros.html
+    return render(request, "booktest/heros.html", replace_data)  # 注意路径前往别写成了booktest.heros.html
 
 
 import datetime
 from django.http import HttpResponseRedirect
+
+
 # /book/create
 def create(request):
     # 创建一本书，为了简单，信息都是固定的
@@ -82,11 +91,14 @@ def create(request):
     # 上面操作完了，还是重定向(就是再次访问)回这个原来的页面（一定要的）用于展示
     return HttpResponseRedirect("/index/book")
 
+
 from django.shortcuts import redirect
+
+
 # /book/delete/(\d+)
 def delete(request, book_id):
-    b = BookInfo.objects.get(id=book_id)    # 是objects，别写错了
-    b.delete()    # 删除
+    b = BookInfo.objects.get(id=book_id)  # 是objects，别写错了
+    b.delete()  # 删除
 
     # return HttpResponseRedirect("/index/book")
     return redirect("/index/book")  # 跟上面效果一模一样，推荐这个吧
@@ -113,7 +125,7 @@ def login_check(request):
     """
     request传过来的对象的数据都在这个里面
     """
-    print(type(request.POST))   # 类型是<class 'django.http.request.QueryDict'>
+    print(type(request.POST))  # 类型是<class 'django.http.request.QueryDict'>
     print(request.method)  # 获取请求方式，一般为 POST 或 GET
     # 我们表单设计的是POST方式，浏览器直接敲这个地址 /login_check 访问的方式是GET
 
@@ -144,6 +156,7 @@ def login_check(request):
 
 """开始cookie的学习"""
 
+
 # /set_cookie
 def set_cookie(request):
     """设置cookie信息"""
@@ -154,7 +167,7 @@ def set_cookie(request):
     # response.set_cookie("num_new", 456)  # 可设置多个cookie
     # 设置过期时间，两种方式(别不设置14天过期)
     # 方式一：
-    response.set_cookie("num", 123, max_age=14*24*3600)  # max_age是到期时间剩余秒数
+    response.set_cookie("num", 123, max_age=14 * 24 * 3600)  # max_age是到期时间剩余秒数
     # 方式二：
     from datetime import datetime, timedelta
     response.set_cookie("num_new", 456789, expires=datetime.now() + timedelta(days=14))
@@ -170,8 +183,9 @@ def get_cookie(request):
     return HttpResponse(num)
 
 
-
 """开始session的学习"""
+
+
 # /set_session
 def set_session(request):
     # 一样session也可以存很多键值对
@@ -277,6 +291,8 @@ def upload(request):
 # /pic_handle
 from booktest.models import PicTest
 from django.conf import settings
+
+
 def pic_handle(request):
     """表单点击上传的图片的处理（放后台处理，就没有对应的页面展示）"""
     # 1、获取上传文件的处理对象
@@ -286,7 +302,7 @@ def pic_handle(request):
     # <class 'django.core.files.uploadedfile.InMemoryUploadedFile'>
     # <class 'django.core.files.uploadedfile.TemporaryUploadedFile'>
 
-    image_name = image.name    # 有一个name属性,获取到上传文件的名字
+    image_name = image.name  # 有一个name属性,获取到上传文件的名字
     # print(image_name)
     # print(image.size)  # 以字节为单位
     # print(image.content_type)
@@ -299,7 +315,7 @@ def pic_handle(request):
             fp.write(content)
 
     # 3、在数据库中保存上传记录
-    PicTest.objects.create(goods_pic=f"booktest/{image_name}")   # goods_pic是PicTest这个类的一个属性
+    PicTest.objects.create(goods_pic=f"booktest/{image_name}")  # goods_pic是PicTest这个类的一个属性
 
     # from django.conf.global_settings import FILE_UPLOAD_HANDLERS
     # print(FILE_UPLOAD_HANDLERS)
@@ -309,6 +325,8 @@ def pic_handle(request):
 
 from booktest.models import AreaInfo
 from django.core.paginator import Paginator
+
+
 # /all_area
 def all_area(request):
     """ 展示地区表中的所有数据 """
@@ -353,3 +371,37 @@ def page_area(request, page_num):
     )
     return render(request, "booktest/page_area.html", replace_data)
 
+
+"""接下来是最后的例子了"""
+# /example
+def example(request):
+    """教程的做法是用的Ajax，在后台发起请求，刷新部分页面，我这就是大概写了，然后是提交表单来展示的"""
+    provinces = AreaInfo.objects.filter(level=1)
+    cities = ""
+    countries = ""
+
+    province_name = ""
+    city_name = ""
+    if request.POST.get("province_id"):  # 点击省份的提交
+        province_id = int(request.POST.get("province_id"))  # 拿到这个省份的id
+        cities = AreaInfo.objects.filter(pid=province_id)  # 通过省份的id，拿到其所有的城市数据
+        province_name = AreaInfo.objects.get(id=province_id).dis_name  # 拿到选中的省份的名字，提交后这就会有值，好做显示
+
+    if request.POST.get("city_id"):  # 点击城市的提交
+        city_id = int(request.POST.get("city_id"))  # 通过post提交的表单拿到城市的id
+        countries = AreaInfo.objects.filter(pid=city_id)  # 拿到这个城市的所有的县
+
+        city_obj = AreaInfo.objects.get(id=city_id)  # 拿到这个被选中的城市的QueryDict对象
+        city_name = city_obj.dis_name  # 通过对象拿到这个城市的名字，存起来，以便点击提交后也能显示
+        province_name = AreaInfo.objects.get(id=city_obj.pid).dis_name  # 通过这个对象拿到其父级省份的名字，存起来，以便提交后的显示
+        cities = AreaInfo.objects.filter(pid=city_obj.pid)  # 通过这个对象的父级pid拿到其同级的城市的QueryDict查询集
+
+    replace_data = dict(
+        provinces=provinces,
+        province_name=province_name,
+        cities=cities,
+
+        countries=countries,
+        city_name=city_name,
+    )
+    return render(request, "booktest/example.html", replace_data)

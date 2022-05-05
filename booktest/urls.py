@@ -32,4 +32,6 @@ urlpatterns = [
 
     path("all_area", views.all_area),    # 展示所有的地区
     re_path("page_area(?P<page_num>\d*)", views.page_area),  # 分页显示数据
+
+    path("example", views.example),     # 最后的示例
 ]
